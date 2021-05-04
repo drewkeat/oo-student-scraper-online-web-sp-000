@@ -27,22 +27,19 @@ class Scraper
     hash[:bio] = profile.css("p").text
     if socials
       socials.each do |social|
+        link = social.attr("href")
         # binding.pry
-        if social.children.attribute("src").value
-          case social.children.attribute("src").value
-          when "../assets/img/twitter-icon.png"
-            hash[:twitter] = social.attribute("href").value
-          when "../assets/img/linkedin-icon.png"
-            hash[:linkedin] = social.attribute("href").value
-          when "../assets/img/github-icon.png"
-            hash[:github] = social.attribute("href").value
-          when "../assets/img/rss-icon.png"
-            hash[:blog] = social.attribute("href").value
-          end
+        if link.include?("twitter")
+          hash[:twitter] = link
+        elsif link.include?("linkedin")
+          hash[:linkedin] = link
+        elsif link.include?("github")
+          hash[:github] = link
+        else
+          hash[:blog] = link
         end
       end
     end
     hash
   end
 end
-
